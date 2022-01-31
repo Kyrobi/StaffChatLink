@@ -1,6 +1,7 @@
 package me.kyrobi;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,6 +20,8 @@ public class Main  extends JavaPlugin implements Listener {
         this.saveDefaultConfig();
         discordToken = this.getConfig().getString("botToken");
 
+
+        this.getCommand("sc").setExecutor((CommandExecutor)new StaffCommand(this));
         new Bridge(this);
     }
 

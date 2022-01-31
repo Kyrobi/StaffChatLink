@@ -17,8 +17,9 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class Bridge extends ListenerAdapter implements Listener {
 
-    public JDA jda;
+    public static JDA jda;
 
+    //Constructor to start the bot
     public Bridge(Main plugin){
         startBot();
 
@@ -26,6 +27,7 @@ public class Bridge extends ListenerAdapter implements Listener {
         jda.addEventListener(this);
     }
 
+    //Start bot method
     private void startBot(){
         try{
             jda = JDABuilder.createDefault(Main.discordToken).enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_PRESENCES).build();
@@ -37,30 +39,30 @@ public class Bridge extends ListenerAdapter implements Listener {
         }
     }
 
-    @EventHandler
-    public void onPlayerChat(AsyncPlayerChatEvent e){
-        System.out.println("BRUH");
-        String message = e.getMessage();
+//    @EventHandler
+//    public void onPlayerChat(AsyncPlayerChatEvent e){
+//        System.out.println("BRUH");
+//        String message = e.getMessage();
+//
+//        sendToDiscord(e.getMessage(),e.getPlayer());
+//    }
 
-        sendToDiscord(e.getMessage(),e.getPlayer());
-    }
+//    @Override
+//    public void onGuildMessageReceived(GuildMessageReceivedEvent e){
+//        if(e.getAuthor().isBot() || e.isWebhookMessage()){
+//            return;
+//        }
+//
+//        sendToMinecraft(e.getMessage().getContentRaw(), e.getAuthor());
+//    }
 
-    @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent e){
-        if(e.getAuthor().isBot() || e.isWebhookMessage()){
-            return;
-        }
-
-        sendToMinecraft(e.getMessage().getContentRaw(), e.getAuthor());
-    }
-
-    public void sendToDiscord(String message, Player player){
+    public static void sendToDiscord(String message, Player player){
         String mcUsername = player.getName();
         TextChannel textChannel = jda.getTextChannelsByName("staff-chat", true).get(0);
         textChannel.sendMessage(mcUsername + ": " + message).queue();
     }
 
-    public void sendToMinecraft(String message, User user){
+    public static void sendToMinecraft(String message, User user){
         Bukkit.broadcastMessage(user.getName() + ": " + message);
     }
 }
