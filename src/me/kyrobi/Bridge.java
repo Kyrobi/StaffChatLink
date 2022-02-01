@@ -47,14 +47,13 @@ public class Bridge extends ListenerAdapter implements Listener {
 //        sendToDiscord(e.getMessage(),e.getPlayer());
 //    }
 
-//    @Override
-//    public void onGuildMessageReceived(GuildMessageReceivedEvent e){
-//        if(e.getAuthor().isBot() || e.isWebhookMessage()){
-//            return;
-//        }
-//
-//        sendToMinecraft(e.getMessage().getContentRaw(), e.getAuthor());
-//    }
+    @Override
+    public void onGuildMessageReceived(GuildMessageReceivedEvent e){
+        if(e.getAuthor().isBot() || e.isWebhookMessage()){
+            return;
+        }
+        sendToMinecraft(e.getMessage().getContentRaw(), e.getAuthor());
+    }
 
     public static void sendToDiscord(String message, Player player){
         String mcUsername = player.getName();
@@ -63,6 +62,12 @@ public class Bridge extends ListenerAdapter implements Listener {
     }
 
     public static void sendToMinecraft(String message, User user){
-        Bukkit.broadcastMessage(user.getName() + ": " + message);
+        //Loop through the online player list and send message to everyone
+        for(final Player staffs: Bukkit.getOnlinePlayers()){
+            if(staffs.hasPermission("staff.chat")){
+
+                staffs.sendMessage("[StaffChat]-> " + user.getName() + ": " + message); //Sends staffchat message ingame
+            }
+        }
     }
 }
