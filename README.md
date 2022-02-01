@@ -1,7 +1,5 @@
 # StaffChatLink
-Staff chat plugin that also links staff chat from ingame to staff-chat channel on Discord
+A very simple staff chat plugin that also links staff chat from ingame to a staff chat channel on Discord.
 
-You need to start the server for the plugin to generate the config file. After it it generated, you need put your bot token into it.
+You need to start the server for the plugin to generate the config file. After it is generated, you need put in your bot token and the Discord channel ID of the staff chat.
 After that, you will need to start the server again.
-
-You will also need a channel called `staff-chat` for the bot to send messages to.
