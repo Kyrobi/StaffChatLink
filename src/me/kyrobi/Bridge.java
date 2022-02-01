@@ -32,7 +32,7 @@ public class Bridge extends ListenerAdapter implements Listener {
     private void startBot(){
         try{
             jda = JDABuilder.createDefault(Main.discordToken).enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_PRESENCES).build();
-            jda.getPresence().setActivity(Activity.watching("Stalking staff chat"));
+            jda.getPresence().setActivity(Activity.watching(Main.status));
             jda.getPresence().setStatus(OnlineStatus.ONLINE);
         }
         catch (Exception e){

@@ -13,6 +13,7 @@ public class Main  extends JavaPlugin implements Listener {
     public ConsoleCommandSender console;
     public static String discordToken;
     public static String staffChannel;
+    public static String status;
 
     @Override
     public void onEnable(){
@@ -23,6 +24,7 @@ public class Main  extends JavaPlugin implements Listener {
         this.saveDefaultConfig();
         discordToken = this.getConfig().getString("botToken");
         staffChannel = this.getConfig().getString("staffChannel");
+        staffChannel = this.getConfig().getString("watchingStatus");
 
 
         this.getCommand("sc").setExecutor((CommandExecutor)new StaffCommand(this));

@@ -1,4 +1,5 @@
 botToken: "12345678901234567890"
 staffChannel: "12345678901234567890"
+watchingStatus: "Stalking server chat"
 ingameFormatPrefix: "&8[&4Staff Chat&8]&r &f&l{player}&r&f"
 ingameFromDiscordFormat: "&8[&4#staff-chat&8]&r &f&l{player}&r&f"
