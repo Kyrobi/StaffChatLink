@@ -19,6 +19,7 @@ public class Main  extends JavaPlugin implements Listener {
     public void onEnable(){
         console = Bukkit.getServer().getConsoleSender();
         console.sendMessage("[StaffChatLink] Loaded!");
+        bStats bStats = new bStats(this, 	14149);
 
         //Fetches config stuff
         this.saveDefaultConfig();
