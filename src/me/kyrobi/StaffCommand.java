@@ -28,7 +28,6 @@ public class StaffCommand implements CommandExecutor {
 
         //Formats the message. Joins together message after the root command
         final String message = String.join(" ", (CharSequence[])strings);
-        final String space = "";
 
         if(message.equals("")){
             player.sendMessage(ChatColor.RED + "You need send a message! /sc (message)");
@@ -39,12 +38,12 @@ public class StaffCommand implements CommandExecutor {
         for(final Player staffs: Bukkit.getOnlinePlayers()){
             if(staffs.hasPermission("staff.chat")){
 
-                staffs.sendMessage("[StaffChat] " + player.getName() + ": " + message); //Sends staffchat message ingame
+                String prefix = this.plugin.getConfig().getString("ingameFormatPrefix").replace("{player}", player.getName());
+                staffs.sendMessage((ChatColor.translateAlternateColorCodes('&', prefix)) + ": " + message); //Sends staffchat message ingame
 
-                Bridge.sendToDiscord(message, player); //Sends staffchat message to Discord
             }
         }
-
+        Bridge.sendToDiscord(message, player); //Sends staffchat message to Discord
         return false;
     }
 }

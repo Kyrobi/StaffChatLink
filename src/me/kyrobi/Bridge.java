@@ -10,18 +10,19 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class Bridge extends ListenerAdapter implements Listener {
 
     public static JDA jda;
+    private Main plugin;
 
     //Constructor to start the bot
     public Bridge(Main plugin){
         startBot();
+        this.plugin = plugin;
 
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         jda.addEventListener(this);
@@ -39,14 +40,10 @@ public class Bridge extends ListenerAdapter implements Listener {
         }
     }
 
-//    @EventHandler
-//    public void onPlayerChat(AsyncPlayerChatEvent e){
-//        System.out.println("BRUH");
-//        String message = e.getMessage();
-//
-//        sendToDiscord(e.getMessage(),e.getPlayer());
-//    }
-
+    /*
+    Event listener for Discord messages. This called the sendToMinecraft method which
+    send sit into the actual game
+     */
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent e){
         if(e.getAuthor().isBot() || e.isWebhookMessage()){
@@ -55,18 +52,29 @@ public class Bridge extends ListenerAdapter implements Listener {
         sendToMinecraft(e.getMessage().getContentRaw(), e.getAuthor());
     }
 
+    /*
+    Sends a message to the relevant discord channel when method is called
+     */
     public static void sendToDiscord(String message, Player player){
         String mcUsername = player.getName();
-        TextChannel textChannel = jda.getTextChannelsByName("staff-chat", true).get(0);
+
+        //Since we don't have event, we need to manually get the text channel from the jda
+        //TextChannel textChannel = jda.getTextChannelsByName(Main.staffChannel, true).get(0);
+        TextChannel textChannel = jda.getTextChannelById(Main.staffChannel);
         textChannel.sendMessage(mcUsername + ": " + message).queue();
     }
 
-    public static void sendToMinecraft(String message, User user){
+    /*
+    Sends a message to ingame. This method is called by the onGuildMessageReceived is tripped
+     */
+    public void sendToMinecraft(String message, User user){
+
         //Loop through the online player list and send message to everyone
         for(final Player staffs: Bukkit.getOnlinePlayers()){
             if(staffs.hasPermission("staff.chat")){
 
-                staffs.sendMessage("[StaffChat]-> " + user.getName() + ": " + message); //Sends staffchat message ingame
+                String prefix = this.plugin.getConfig().getString("ingameFromDiscordFormat").replace("{player}", user.getName());
+                staffs.sendMessage((ChatColor.translateAlternateColorCodes('&', prefix)) + ": " + message); //Sends staffchat message ingame
             }
         }
     }

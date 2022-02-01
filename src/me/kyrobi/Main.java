@@ -6,10 +6,13 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import static me.kyrobi.Bridge.jda;
+
 public class Main  extends JavaPlugin implements Listener {
 
     public ConsoleCommandSender console;
     public static String discordToken;
+    public static String staffChannel;
 
     @Override
     public void onEnable(){
@@ -19,6 +22,7 @@ public class Main  extends JavaPlugin implements Listener {
         //Fetches config stuff
         this.saveDefaultConfig();
         discordToken = this.getConfig().getString("botToken");
+        staffChannel = this.getConfig().getString("staffChannel");
 
 
         this.getCommand("sc").setExecutor((CommandExecutor)new StaffCommand(this));
@@ -28,5 +32,6 @@ public class Main  extends JavaPlugin implements Listener {
 
     public void onDisable(){
         console.sendMessage("[StaffChatLink] Unloaded!");
+        jda.shutdownNow(); // Shuts down the JDA instance incase we need to reload plugin
     }
 }
