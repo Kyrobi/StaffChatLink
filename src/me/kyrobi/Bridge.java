@@ -32,7 +32,7 @@ public class Bridge extends ListenerAdapter implements Listener {
     private void startBot(){
         try{
             jda = JDABuilder.createDefault(Main.discordToken).enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_PRESENCES).build();
-            jda.getPresence().setActivity(Activity.watching("Stalking server chat again"));
+            jda.getPresence().setActivity(Activity.watching("Stalking staff chat"));
             jda.getPresence().setStatus(OnlineStatus.ONLINE);
         }
         catch (Exception e){
@@ -49,7 +49,10 @@ public class Bridge extends ListenerAdapter implements Listener {
         if(e.getAuthor().isBot() || e.isWebhookMessage()){
             return;
         }
-        sendToMinecraft(e.getMessage().getContentRaw(), e.getAuthor());
+
+        if(e.getChannel().getIdLong() == Long.parseLong(Main.staffChannel)){
+            sendToMinecraft(e.getMessage().getContentRaw(), e.getAuthor());
+        }
     }
 
     /*
