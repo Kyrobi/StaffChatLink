@@ -24,7 +24,7 @@ public class Main  extends JavaPlugin implements Listener {
         this.saveDefaultConfig();
         discordToken = this.getConfig().getString("botToken");
         staffChannel = this.getConfig().getString("staffChannel");
-        staffChannel = this.getConfig().getString("watchingStatus");
+        status = this.getConfig().getString("watchingStatus");
 
 
         this.getCommand("sc").setExecutor((CommandExecutor)new StaffCommand(this));
