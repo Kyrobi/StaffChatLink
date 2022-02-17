@@ -14,6 +14,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
+import java.util.Arrays;
+
 public class Bridge extends ListenerAdapter implements Listener {
 
     public static JDA jda;
@@ -30,13 +32,15 @@ public class Bridge extends ListenerAdapter implements Listener {
 
     //Start bot method
     private void startBot(){
+
         try{
             jda = JDABuilder.createDefault(Main.discordToken).enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_PRESENCES).build();
+
             jda.getPresence().setActivity(Activity.watching(Main.status));
             jda.getPresence().setStatus(OnlineStatus.ONLINE);
         }
         catch (Exception e){
-            System.out.println("Something went wrong enabling discord hook");
+            Bukkit.getLogger().warning("Something went wrong enabling discord hook. Make sure you follow the steps on the plugin page!");
         }
     }
 
